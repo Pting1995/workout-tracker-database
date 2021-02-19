@@ -25,8 +25,12 @@ module.exports = function (app) {
     });
 
     app.put("/api/workouts/:id", (req, res) => {
+        // console.log(req.body)
+        var ex = []
+        ex.push(req.body)
+        // console.log(ex)
         workout.findOneAndUpdate({_id: req.params.id},
-        {$push: {exercise: req.body}})
+        {$push: {exercises: ex}})
             .then(dbworkout => {
                 res.json(dbworkout);
             })
@@ -35,35 +39,5 @@ module.exports = function (app) {
             });
     });
 
-    app.get("/api/workouts/range", (req, res) => {
-
-        workout.find({})
-            .then(dbworkout => {
-                console.log(dbworkout[0])
-                res.json(dbworkout.aggregate([
-                    {
-                        $group:
-                        {
-                            _id: { day: { $dayOfYear: "$date" }},
-                            totalDuration: { $sum: "duration" },
-                            // count: { $sum: 1 }
-                        }
-                    }
-                ]));
-            })
-            .catch(err => {
-                res.json(err);
-            });
-
-        // workout.aggregate([
-        //     {
-        //         $group:
-        //         {
-        //             _id: { day: { $dayOfYear: "$date" }},
-        //             totalDuration: { $sum: "duration" },
-        //             // count: { $sum: 1 }
-        //         }
-        //     }
-        // ])
-    });
+    
 }

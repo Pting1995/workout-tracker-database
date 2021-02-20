@@ -2,10 +2,13 @@ const workout = require("../models/workout.js");
 
 
 module.exports = function (app) {
-    
+
     app.get("/api/workouts", (req, res) => {
-        workout.find({})
-            //     // .sort({ date: -1 })
+        workout.aggregate([
+            {
+                $addFields: { totalDuration: { $sum: "$exercises.duration" } }
+            }
+        ])
             .then(dbworkout => {
                 res.json(dbworkout);
             })
@@ -25,12 +28,10 @@ module.exports = function (app) {
     });
 
     app.put("/api/workouts/:id", (req, res) => {
-        // console.log(req.body)
-        var ex = []
-        ex.push(req.body)
-        // console.log(ex)
-        workout.findOneAndUpdate({_id: req.params.id},
-        {$push: {exercises: ex}})
+        var exer = []
+        exer.push(req.body)
+        workout.findOneAndUpdate({ _id: req.params.id },
+            { $push: { exercises: exer } })
             .then(dbworkout => {
                 res.json(dbworkout);
             })
@@ -39,5 +40,19 @@ module.exports = function (app) {
             });
     });
 
-    
+    // app.get("/api/workouts/range", (req, res) => {
+    //     workout.find({})
+    //         .then(dbworkout => {
+    //         })
+    // })
+
+    app.get("/api/workouts/range", (req, res) => {
+        workout.find({}).limit(7)
+            .then(last7 => {
+                res.json(last7)
+            })
+            .catch(err => {
+                res.json(err);
+            });
+    })
 }

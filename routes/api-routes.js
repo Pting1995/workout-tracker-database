@@ -1,16 +1,16 @@
-const workout = require("../models/workout.js");
+const Workout = require("../models/workout.js");
 
 
 module.exports = function (app) {
 
     app.get("/api/workouts", (req, res) => {
-        workout.aggregate([
+        Workout.aggregate([
             {
                 $addFields: { totalDuration: { $sum: "$exercises.duration" } }
             }
         ])
-            .then(dbworkout => {
-                res.json(dbworkout);
+            .then(dbWorkout => {
+                res.json(dbWorkout);
             })
             .catch(err => {
                 res.json(err);
@@ -18,9 +18,9 @@ module.exports = function (app) {
     });
 
     app.post("/api/workouts", ({ body }, res) => {
-        workout.create(body)
-            .then(dbworkout => {
-                res.json(dbworkout);
+        Workout.create(body)
+            .then(dbWorkout => {
+                res.json(dbWorkout);
             })
             .catch(err => {
                 res.json(err);
@@ -30,24 +30,24 @@ module.exports = function (app) {
     app.put("/api/workouts/:id", (req, res) => {
         var exer = []
         exer.push(req.body)
-        workout.findOneAndUpdate({ _id: req.params.id },
+        Workout.findOneAndUpdate({ _id: req.params.id },
             { $push: { exercises: exer } })
-            .then(dbworkout => {
-                res.json(dbworkout);
+            .then(dbWorkout => {
+                res.json(dbWorkout);
             })
             .catch(err => {
                 res.json(err);
             });
     });
 
-    // app.get("/api/workouts/range", (req, res) => {
-    //     workout.find({})
-    //         .then(dbworkout => {
+    // app.get("/api/Workouts/range", (req, res) => {
+    //     Workout.find({})
+    //         .then(dbWorkout => {
     //         })
     // })
 
     app.get("/api/workouts/range", (req, res) => {
-        workout.find({}).limit(7)
+        Workout.find({}).limit(7)
             .then(last7 => {
                 res.json(last7)
             })

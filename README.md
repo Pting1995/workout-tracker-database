@@ -42,7 +42,7 @@ app.get("/api/workouts", (req, res) => {
 * [express](https://www.npmjs.com/package/express)
 * [MongoDB](https://www.npmjs.com/package/mongodb)
 * [Mongoose](https://www.npmjs.com/package/mongoose)
-* [Morgan]](https://www.npmjs.com/package/morgan)
+* [Morgan](https://www.npmjs.com/package/morgan)
 * [Heroku](https://dashboard.heroku.com/)
 
 ## Authors

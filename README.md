@@ -5,11 +5,11 @@ This app lets you track your workouts! When you first use the app only the "new 
 
 ## Preview of Working Site
 
-![Image]()
+![Image](./images/workout-tracker.gif)
 
 ## Deployed Link
 
-* [See Live Site]()
+* [See Live Site](https://workout-tracker-database.herokuapp.com/)
 
 ## Code Snippet
 The code below shows the get route for api/workouts. It uses aggregate, which is a built in method for mongoose. It creates a new object with the key of totalDuration and a value of the sum of the exercises.
